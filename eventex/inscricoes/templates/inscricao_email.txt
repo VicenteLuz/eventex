@@ -1,0 +1,20 @@
+Olá! tudo bem?
+
+Muito obrigada por se inscrever no eventex
+
+Estes são os dados que você nos forneceu
+em sua inscrição:
+
+Nome: {{ name }}
+Cpf: {{ cpf }}
+Email: {{ email }}
+Fone: {{ phone }}
+
+Em até 48 horas úteis nossa equipe
+entrarã em contato com você para
+concluirmos a sua matricula.
+
+Atenciosamente,
+
+------
+Morena
