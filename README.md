@@ -1,5 +1,7 @@
 # Eventex
 Sistema de eventos encomendado pela Morena
+[![Code Health](https://landscape.io/github/VicenteLuz/eventex/master/landscape.svg?style=flat)](https://landscape.io/github/VicenteLuz/eventex/master)
+[![Build Status](https://travis-ci.org/VicenteLuz/eventex.svg?branch=master)](https://travis-ci.org/VicenteLuz/eventex)
 
 ## Como desenvolver?
 
