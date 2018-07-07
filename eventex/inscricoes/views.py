@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.core import mail
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from eventex.inscricoes.forms import InscricaoForm
@@ -20,19 +20,28 @@ def create(request):
     if not form.is_valid():
         return render(request, 'inscricao_form.html', {'form': form})
 
+    incricao = Inscricao.objects.create(**form.cleaned_data)
+
 
     envia_email('Confirmacao de Inscricao',
                 settings.DEFAULT_FROM_EMAIL,
-                form.cleaned_data['email'], 'inscricao_email.txt',
-                form.cleaned_data)
-    Inscricao.objects.create(**form.cleaned_data)
-    messages.success(request, 'Inscrição realizada com sucesso!')
+                incricao.email,
+                'inscricao_email.txt',
+                {'inscricao': incricao})
 
-    return HttpResponseRedirect('/inscricao/')
+    return HttpResponseRedirect('/inscricao/{}/'.format(incricao.pk))
 
 
 def new(request):
     return render(request, 'inscricao_form.html', {'form': InscricaoForm()})
+
+
+def detail(request, pk):
+    try:
+        inscricao = Inscricao.objects.get(pk=pk)
+    except Inscricao.DoesNotExist:
+        raise Http404
+    return render(request, 'inscricao_detail.html', {'inscricao': inscricao})
 
 
 def envia_email(subject, de, para, template_name, context):

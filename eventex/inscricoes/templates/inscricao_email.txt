@@ -5,10 +5,10 @@ Muito obrigada por se inscrever no eventex
 Estes são os dados que você nos forneceu
 em sua inscrição:
 
-Nome: {{ name }}
-Cpf: {{ cpf }}
-Email: {{ email }}
-Fone: {{ phone }}
+Nome: {{ inscricao.name }}
+Cpf: {{ inscricao.cpf }}
+Email: {{ inscricao.email }}
+Fone: {{ inscricao.phone }}
 
 Em até 48 horas úteis nossa equipe
 entrarã em contato com você para

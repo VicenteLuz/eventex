@@ -1,5 +1,6 @@
 from django.core import mail
 from django.test import TestCase
+
 from eventex.inscricoes.forms import InscricaoForm
 from eventex.inscricoes.models import Inscricao
 
@@ -47,8 +48,8 @@ class InscricaoPostValid(TestCase):
 
 
     def test_post(self):
-        '''Valid post redirect to /inscricao/'''
-        self.assertEqual(302, self.resp.status_code)
+        '''Valid post redirect to /inscricao/1/'''
+        self.assertRedirects(self.resp, '/inscricao/1/')
 
     def test_send_inscricao_email(self):
         self.assertEqual(1, len(mail.outbox))
@@ -78,12 +79,3 @@ class InscricaoPostInvalid(TestCase):
 
     def test_dont_save_inscricao(self):
         self.assertFalse(Inscricao.objects.exists())
-
-class InscricaoSuccessMessage(TestCase):
-    def test_message(self):
-        data = dict(name='Vicente Luz', cpf='12345678901',
-                    email='vicente.luz@armazemparaiba.com.br',
-                    phone='86-98822-1812')
-        response = self.client.post('/inscricao/', data, follow=True)
-        self.assertContains(response, 'Inscrição realizada com sucesso!')
-
