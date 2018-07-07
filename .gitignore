@@ -6,3 +6,4 @@
 *pyc
 __pycache__
 statcfiles/
+.ipynb_checkpoints/
