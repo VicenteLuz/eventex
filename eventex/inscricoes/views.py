@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template.loader import render_to_string
 from eventex.inscricoes.forms import InscricaoForm
+from eventex.inscricoes.models import Inscricao
 
 
 def inscricao(request):
@@ -24,7 +25,7 @@ def create(request):
                 settings.DEFAULT_FROM_EMAIL,
                 form.cleaned_data['email'], 'inscricao_email.txt',
                 form.cleaned_data)
-
+    Inscricao.objects.create(**form.cleaned_data)
     messages.success(request, 'Inscrição realizada com sucesso!')
 
     return HttpResponseRedirect('/inscricao/')
