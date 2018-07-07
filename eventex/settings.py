@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'test_without_migrations',
     'eventex.core',
-    'eventex.inscricoes',
+    'eventex.inscricoes.apps.InscricoesConfig',
 ]
 
 MIDDLEWARE = [
