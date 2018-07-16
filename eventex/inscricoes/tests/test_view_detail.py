@@ -1,5 +1,5 @@
 from django.test import TestCase
-
+from django.shortcuts import resolve_url as r
 from eventex.inscricoes.models import Inscricao
 
 
@@ -10,7 +10,7 @@ class InscricaoDetailGet(TestCase):
             cpf = '12345678901',
             email = 'vicente@frigotil.com.br',
             phone = '86-98822-1812')
-        self.resp = self.client.get('/inscricao/{}/'.format(self.obj.pk))
+        self.resp = self.client.get(r('inscricoes:detail', self.obj.pk))
 
     def test_get(self):
         self.assertEqual(200, self.resp.status_code)
@@ -31,7 +31,7 @@ class InscricaoDetailGet(TestCase):
 
 class InscricaoDetailNotFound(TestCase):
     def setUp(self):
-        self.resp = self.client.get('/inscricao/0/')
+        self.resp = self.client.get(r('inscricoes:detail', 0))
 
     def test_not_found(self):
         self.assertEqual(404, self.resp.status_code)

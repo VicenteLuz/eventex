@@ -2,17 +2,20 @@ from django.conf import settings
 from django.contrib import messages
 from django.core import mail
 from django.http import HttpResponseRedirect, Http404
-from django.shortcuts import render
+from django.shortcuts import render, resolve_url as r
 from django.template.loader import render_to_string
 from eventex.inscricoes.forms import InscricaoForm
 from eventex.inscricoes.models import Inscricao
 
 
-def inscricao(request):
+def new(request):
     if request.method == 'POST':
         return create(request)
-    else:
-        return new(request)
+
+    return input_form(request)
+
+def input_form(request):
+    return render(request, 'inscricao_form.html', {'form': InscricaoForm()})
 
 
 def create(request):
@@ -29,11 +32,7 @@ def create(request):
                 'inscricao_email.txt',
                 {'inscricao': incricao})
 
-    return HttpResponseRedirect('/inscricao/{}/'.format(incricao.pk))
-
-
-def new(request):
-    return render(request, 'inscricao_form.html', {'form': InscricaoForm()})
+    return HttpResponseRedirect(r('inscricoes:detail', incricao.pk))
 
 
 def detail(request, pk):

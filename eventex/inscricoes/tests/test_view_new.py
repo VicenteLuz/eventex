@@ -1,13 +1,13 @@
 from django.core import mail
 from django.test import TestCase
-
+from django.shortcuts import resolve_url as r
 from eventex.inscricoes.forms import InscricaoForm
 from eventex.inscricoes.models import Inscricao
 
 
-class InscricaoGet(TestCase):
+class InscricaoNewGet(TestCase):
     def setUp(self):
-        self.resp = self.client.get('/inscricao/')
+        self.resp = self.client.get(r('inscricoes:new'))
 
     def test_get(self):
         '''Get /inscricao/ must return status code 200'''
@@ -38,18 +38,18 @@ class InscricaoGet(TestCase):
         self.assertIsInstance(form, InscricaoForm)
 
 
-class InscricaoPostValid(TestCase):
+class InscricaoNewPostValid(TestCase):
     def setUp(self):
         data = dict(name = 'Vicente Luz', cpf = '12345678901',
                     email = 'vicente.luz@armazemparaiba.com.br',
                     phone = '86-98822-1812')
-        self.resp = self.client.post('/inscricao/', data)
+        self.resp = self.client.post(r('inscricoes:new'), data)
         self.email = mail.outbox[0]
 
 
     def test_post(self):
         '''Valid post redirect to /inscricao/1/'''
-        self.assertRedirects(self.resp, '/inscricao/1/')
+        self.assertRedirects(self.resp, r('inscricoes:detail', 1))
 
     def test_send_inscricao_email(self):
         self.assertEqual(1, len(mail.outbox))
@@ -58,10 +58,10 @@ class InscricaoPostValid(TestCase):
         self.assertTrue(Inscricao.objects.exists())
 
 
-class InscricaoPostInvalid(TestCase):
+class InscricaoNewPostInvalid(TestCase):
     def setUp(self):
         data = dict()
-        self.resp = self.client.post('/inscricao/', data)
+        self.resp = self.client.post(r('inscricoes:new'), data)
         self.form = self.resp.context['form']
 
     def test_post(self):
