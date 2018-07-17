@@ -22,3 +22,6 @@ class inscricaoModelTest(TestCase):
 
     def test_str(self):
         self.assertEqual('Vicente Luz', str(self.obj))
+
+    def test_pago_default_false(self):
+        self.assertEqual(False, self.obj.paid)
