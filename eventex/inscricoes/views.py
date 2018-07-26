@@ -22,7 +22,8 @@ def create(request):
     if not form.is_valid():
         return render(request, 'inscricao_form.html', {'form': form})
 
-    incricao = Inscricao.objects.create(**form.cleaned_data)
+    incricao = form.save()
+    #incricao = Inscricao.objects.create(**form.cleaned_data)
 
 
     envia_email('Confirmacao de Inscricao',
