@@ -79,3 +79,9 @@ class InscricaoNewPostInvalid(TestCase):
 
     def test_dont_save_inscricao(self):
         self.assertFalse(Inscricao.objects.exists())
+
+class TemplateRegresionTest(TestCase):
+    def test_template_errors_field(self):
+        invalid_data = dict(name = 'Vicente Luz', cpf = '12345678901')
+        response = self.client.post(r('inscricoes:new'), invalid_data)
+        self.assertContains(response, '<ul class="errorlist nonfield">')

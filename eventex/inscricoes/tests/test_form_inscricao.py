@@ -20,6 +20,22 @@ class inscricaoFormTest(TestCase):
         #self.assertFormErrorMessage(form, 'cpf', 'cpf deve conter 11 digitos, verifique!')
         self.assertErrorCode(form, 'cpf', 'tamanho')
 
+    def test_capitalize_name(self):
+        form = self.make_valida_form(name='VICENTE oliveira LUZ')
+        self.assertEqual('Vicente Oliveira Luz', form.cleaned_data['name'])
+
+    def test_email_optional(self):
+        form = self.make_valida_form(email='')
+        self.assertFalse(form.errors)
+
+    def test_phone_optional(self):
+        form = self.make_valida_form(phone='')
+        self.assertFalse(form.errors)
+
+    def test_informe_email_or_phone(self):
+        form = self.make_valida_form(email='', phone='')
+        self.assertListEqual(list(['__all__']), list(form.errors))
+
     def assertErrorCode(self, form, field, code):
         errors = form.errors.as_data()
         errors_list = errors[field]
